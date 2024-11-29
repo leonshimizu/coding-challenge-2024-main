@@ -8,10 +8,10 @@
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  expiry                 :string
-#  is_doctor              :boolean          default(FALSE)
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  role                   :integer          default("user"), not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -28,6 +28,10 @@ class User < ApplicationRecord
   has_many :orders
   has_many :messages
 
+  # Replace is_doctor with role-based enum
+  enum role: { user: 0, doctor: 1, customer_care: 2 }
+
+  # Method for doctors to fetch their orders
   def doctor_orders
     Order.where(doctor_id: self.id)
   end
