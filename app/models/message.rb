@@ -28,4 +28,18 @@ class Message < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :doctor, class_name: 'User', foreign_key: 'doctor_id', optional: true
   belongs_to :order
+
+  # Scope for visibility based on user role
+  scope :visible_to, ->(user) {
+    case user.role
+    when 'customer_care'
+      all
+    when 'user'
+      where(user_id: user.id).or(where(doctor_id: user.id))
+                            .where.not(doctor_id: User.customer_care.pluck(:id))
+    when 'doctor'
+      where(doctor_id: user.id).or(where(user_id: user.id))
+                               .where.not(user_id: User.customer_care.pluck(:id))
+    end
+  }
 end
