@@ -4,7 +4,9 @@ class OrdersController < ApplicationController
 
   # GET /orders or /orders.json
   def index
-    @orders = if current_user.doctor?
+    @orders = if current_user.customer_care?
+                Order.all
+              elsif current_user.doctor?
                 current_user.doctor_orders
               else
                 current_user.orders
