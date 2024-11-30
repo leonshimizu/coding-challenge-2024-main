@@ -4,7 +4,8 @@
 
 <div id="orders">
   <% @orders.each do |order| %>
-    <%= render order %>
+    <% if current_user.customer_care? || (current_user.user? && order.user == current_user) || (current_user.doctor? && order.doctor == current_user) %>
+      <%= render order %>
+    <% end %>
   <% end %>
 </div>
-

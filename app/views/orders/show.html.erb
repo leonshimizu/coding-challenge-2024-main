@@ -1,10 +1,11 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @order %>
+<h1 class="text-2xl">Orders</h1>
 
-<div>
-  <%= link_to "Edit this order", edit_order_path(@order) %> |
-  <%= link_to "Back to orders", orders_path %>
-
-  <%= button_to "Destroy this order", @order, method: :delete %>
+<div id="orders">
+  <% @orders.each do |order| %>
+    <% if current_user.customer_care? || (current_user.user? && order.user == current_user) || (current_user.doctor? && order.doctor == current_user) %>
+      <%= render order %>
+    <% end %>
+  <% end %>
 </div>
