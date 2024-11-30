@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_29_230917) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_30_040711) do
   create_table "messages", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "doctor_id"
     t.integer "order_id", null: false
     t.string "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["doctor_id"], name: "index_messages_on_doctor_id"
+    t.integer "recipient_id"
     t.index ["order_id"], name: "index_messages_on_order_id"
+    t.index ["recipient_id"], name: "index_messages_on_recipient_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
@@ -52,7 +52,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_29_230917) do
 
   add_foreign_key "messages", "orders"
   add_foreign_key "messages", "users"
-  add_foreign_key "messages", "users", column: "doctor_id"
   add_foreign_key "orders", "users"
   add_foreign_key "orders", "users", column: "doctor_id"
 end

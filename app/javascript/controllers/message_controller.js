@@ -1,20 +1,46 @@
-import ApplicationController from "controllers/application_controller"
+import { Controller } from "@hotwired/stimulus";
 
-export default class extends ApplicationController {
-  static targets = ["message", "order_id", "user_id"]
+export default class extends Controller {
+  static targets = ["orderId", "recipientId", "message"];
 
-  connect () {
-    super.connect()
+  submit(event) {
+    event.preventDefault();
+
+    const orderId = this.orderIdTarget.value;
+    const recipientId = this.recipientIdTarget.value;
+    const message = this.messageTarget.value;
+
+    if (!recipientId || !message.trim()) {
+      alert("Please select a recipient and enter a message.");
+      return;
+    }
+
+    // Send data via Stimulus Reflex or AJAX
+    this.sendMessage(orderId, recipientId, message);
   }
 
-  submit(e) {
-    e.preventDefault()
-    console.log("submitting with stimulus/reflex instead of form")
-    this.stimulate("MessageReflex#create", {
-      message: this.messageTarget.value,
-      user_id: this.user_idTarget.value,
-      order_id: this.order_idTarget.value,
+  sendMessage(orderId, recipientId, message) {
+    fetch("/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+      },
+      body: JSON.stringify({
+        message: {
+          order_id: orderId,
+          recipient_id: recipientId,
+          message: message,
+        },
+      }),
     })
-    this.messageTarget.value = ""
+      .then((response) => {
+        if (response.ok) {
+          location.reload(); // Reload page on success
+        } else {
+          alert("Failed to send message.");
+        }
+      })
+      .catch((error) => console.error("Error:", error));
   }
 }

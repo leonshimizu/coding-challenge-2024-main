@@ -1,24 +1,15 @@
+# app/controllers/messages_controller.rb
 class MessagesController < ApplicationController
     def index
-      # Fetch only messages visible to the current user
       @messages = Message.visible_to(current_user)
     end
   
     def create
       @message = Message.new(message_params)
+      @message.user = current_user # Automatically set the sender
   
-      # Assign the correct association based on the user's role
-      if current_user.doctor?
-        @message.doctor = current_user
-      elsif current_user.customer_care?
-        @message.user = current_user
-      else
-        @message.user = current_user
-      end
-  
-      # Save the message and handle errors
       if @message.save
-        redirect_to orders_path
+        redirect_to orders_path, notice: "Message sent successfully!"
       else
         flash[:error] = "Message failed to send: #{@message.errors.full_messages.join(', ')}"
         redirect_to orders_path
@@ -28,7 +19,7 @@ class MessagesController < ApplicationController
     private
   
     def message_params
-      params.require(:message).permit(:message, :order_id, :user_id)
+      params.require(:message).permit(:message, :order_id, :recipient_id)
     end
   end
   

@@ -1,26 +1,12 @@
+# app/controllers/orders_controller.rb
 class OrdersController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_order, only: %i[show edit update destroy]
-
-  # GET /orders or /orders.json
   def index
     @orders = if current_user.customer_care?
                 Order.all
               elsif current_user.doctor?
-                current_user.doctor_orders
+                Order.where(doctor_id: current_user.id)
               else
-                current_user.orders
+                Order.where(user_id: current_user.id)
               end
-    puts "Orders: #{@orders.inspect}"
-  end
-
-  # GET /orders/1 or /orders/1.json
-  def show
-  end
-
-  private
-
-  def set_order
-    @order = Order.find(params[:id])
   end
 end
