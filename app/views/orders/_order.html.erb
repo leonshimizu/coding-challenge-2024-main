@@ -9,18 +9,16 @@
     <p>Updated At: <%= order.updated_at %></p>
   </div>
   <div class="h-full">
-    <!-- Render only visible messages for the current user -->
     <div id="messages" class="flex flex-col gap-4">
       <% order.messages.visible_to(current_user).each do |message| %>
         <div class="bg-white p-4 rounded-lg shadow-md">
-          <p class="font-bold"><%= message.user&.email || message.recipient&.email %></p>
+          <p><strong>From:</strong> <%= message.user&.email || message.doctor&.email %></p>
+          <p><strong>To:</strong> <%= message.recipient&.email || "Customer Care" %></p>
           <p class="text-gray-800"><%= message.message %></p>
           <p class="text-gray-500 text-sm"><%= message.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
         </div>
       <% end %>
     </div>
-
-    <!-- Message form for the order -->
     <%= render partial: "messages/form", locals: { order: order } %>
   </div>
 </div>
