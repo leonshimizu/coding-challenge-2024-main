@@ -12,7 +12,7 @@
     <div id="messages" class="flex flex-col gap-4">
       <% order.messages.visible_to(current_user).each do |message| %>
         <div class="bg-white p-4 rounded-lg shadow-md">
-          <p><strong>From:</strong> <%= message.user&.email || message.doctor&.email %></p>
+          <p><strong>From:</strong> <%= message.user&.email || "System" %></p>
           <p><strong>To:</strong> <%= message.recipient&.email || "Customer Care" %></p>
           <p class="text-gray-800"><%= message.message %></p>
           <p class="text-gray-500 text-sm"><%= message.created_at.strftime("%B %d, %Y %I:%M %p") %></p>

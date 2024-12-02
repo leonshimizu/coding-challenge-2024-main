@@ -24,7 +24,6 @@
 # app/models/message.rb
 class Message < ApplicationRecord
   belongs_to :user, optional: true
-  belongs_to :doctor, class_name: "User", foreign_key: "doctor_id", optional: true
   belongs_to :recipient, class_name: "User", foreign_key: "recipient_id", optional: true
   belongs_to :order
 
@@ -34,9 +33,13 @@ class Message < ApplicationRecord
     when "customer_care"
       all
     when "user"
-      where(user_id: user.id).or(where(recipient_id: user.id)).where(order_id: Order.where(user_id: user.id))
+      where(order_id: Order.where(user_id: user.id))
+        .where("user_id = :user_id OR recipient_id = :user_id", user_id: user.id)
     when "doctor"
-      where(doctor_id: user.id).or(where(recipient_id: user.id)).where(order_id: Order.where(doctor_id: user.id))
+      where(order_id: Order.where(doctor_id: user.id))
+        .where("user_id = :user_id OR recipient_id = :user_id", user_id: user.id)
+    else
+      none
     end
   }
 end
