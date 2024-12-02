@@ -23,14 +23,7 @@
 
 one:
   id: 1
-  user: one
-  doctor: one
-  order_items: MyString
-  total: 9.99
-
-two:
-  id: 1
-  user: two
-  doctor: two
-  order_items: MyString
-  total: 9.99
+  user_id: 1
+  doctor_id: 2
+  order_items: '[{ "name": "Item 1", "quantity": 2, "price": 10.0 }]'
+  total: 20.00

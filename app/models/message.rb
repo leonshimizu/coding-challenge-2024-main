@@ -33,13 +33,9 @@ class Message < ApplicationRecord
     when "customer_care"
       all
     when "user"
-      where(order_id: Order.where(user_id: user.id))
-        .where("user_id = :user_id OR recipient_id = :user_id", user_id: user.id)
+      where(user_id: user.id).or(where(recipient_id: user.id))
     when "doctor"
-      where(order_id: Order.where(doctor_id: user.id))
-        .where("user_id = :user_id OR recipient_id = :user_id", user_id: user.id)
-    else
-      none
+      where(user_id: user.id).or(where(recipient_id: user.id))
     end
   }
 end

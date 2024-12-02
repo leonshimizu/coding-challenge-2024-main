@@ -23,7 +23,12 @@
 require "test_helper"
 
 class OrderTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  setup do
+    @order = orders(:one)
+    @message = messages(:one)
+  end
+
+  test "order has messages" do
+    assert_includes @order.messages, @message
+  end
 end

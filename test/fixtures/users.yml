@@ -23,16 +23,21 @@
 
 one:
   id: 1
-  email: MyString
-  password: MyString
-  credit_card_number: MyString
-  expiry: MyString
-  cvv: MyString
+  email: user@example.com
+  encrypted_password: <%= User.new(password: "Password1!").encrypted_password %>
+  role: 0 # user
+  credit_card_number: "4111111111111111"
+  expiry: "12/25"
+  cvv: "123"
 
 two:
-  id: 1
-  email: MyString
-  password: MyString
-  credit_card_number: MyString
-  expiry: MyString
-  cvv: MyString
+  id: 2
+  email: doctor@example.com
+  encrypted_password: <%= User.new(password: "Password1!").encrypted_password %>
+  role: 1 # doctor
+
+three:
+  id: 3
+  email: customercare@example.com
+  encrypted_password: <%= User.new(password: "Password1!").encrypted_password %>
+  role: 2 # customer care

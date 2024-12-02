@@ -24,14 +24,28 @@
 
 one:
   id: 1
-  user: one
-  doctor: one
-  order: one
-  message: MyString
+  user_id: 1
+  recipient_id: 2
+  order_id: 1
+  message: "Hi Doctor, can you provide more details about my order?"
 
 two:
-  id: 1
-  user: two
-  doctor: two
-  order: two
-  message: MyString
+  id: 2
+  user_id: 2
+  recipient_id: 1
+  order_id: 1
+  message: "Sure! Let me check the details for you."
+
+three:
+  id: 3
+  user_id: 1
+  recipient_id: 3
+  order_id: 1
+  message: "Can customer care check the status of my order?"
+
+four:
+  id: 4
+  user_id: 3
+  recipient_id: 1
+  order_id: 1
+  message: "Your order is currently being reviewed by the doctor."

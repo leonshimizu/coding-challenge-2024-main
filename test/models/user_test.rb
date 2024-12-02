@@ -23,7 +23,17 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  setup do
+    @user = users(:one)
+    @order = orders(:one)
+  end
+
+  test "user can see associated orders" do
+    assert_includes @user.orders, @order
+  end
+
+  test "doctor can see doctor orders" do
+    doctor = users(:two)
+    assert_includes doctor.doctor_orders, @order
+  end
 end
